@@ -1,2 +1,2 @@
-operation = (93 + 33 + (4 - 26)) + (3 - 6 * 2)
+operation = 12 * (-2) * (-1) * (-3)
 print(operation)
