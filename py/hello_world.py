@@ -1,2 +1,0 @@
-operation = 12 * (-2) * (-1) * (-3)
-print(operation)
