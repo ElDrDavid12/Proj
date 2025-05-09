@@ -1,0 +1,138 @@
+def get_initial_population():
+    """Get the starting population from the user."""
+    blue = int(input("Enter initial number of blue cubes: "))
+    purple = int(input("Enter initial number of purple cubes: "))
+    green = int(input("Enter initial number of green cubes: "))
+    return blue, purple, green
+
+def get_pair_counts():
+    """
+    For the current generation, ask the user for the number of pairs 
+    for each of the 6 families.
+    """
+    print("\nEnter the number of pairs for each family:")
+    bb = int(input("  Blue-Blue pairs: "))
+    bp = int(input("  Blue-Purple pairs: "))
+    bg = int(input("  Blue-Green pairs: "))
+    pp = int(input("  Purple-Purple pairs: "))
+    pg = int(input("  Purple-Green pairs: "))
+    gg = int(input("  Green-Green pairs: "))
+    return {
+        "Blue-Blue": bb,
+        "Blue-Purple": bp,
+        "Blue-Green": bg,
+        "Purple-Purple": pp,
+        "Purple-Green": pg,
+        "Green-Green": gg,
+    }
+
+def produce_offspring(pair_counts):
+    """
+    Given the number of pairs for each family, calculate the total 
+    offspring produced. Offspring rules (offspring distribution):
+      - Blue-Blue: (2 blue, 0 purple, 0 green)
+      - Blue-Purple: (1 blue, 1 purple, 0 green)
+      - Blue-Green: (1 blue, 0 purple, 1 green)
+      - Purple-Purple: (0 blue, 2 purple, 0 green)
+      - Purple-Green: (0 blue, 1 purple, 1 green)
+      - Green-Green: (0 blue, 0 purple, 2 green)
+    Returns a dictionary with the offspring counts and also a breakdown
+    per family.
+    """
+    # Offspring rules per pair type:
+    offspring_rules = {
+        "Blue-Blue":   (2, 0, 0),
+        "Blue-Purple": (1, 1, 0),
+        "Blue-Green":  (1, 0, 1),
+        "Purple-Purple": (0, 2, 0),
+        "Purple-Green":  (0, 1, 1),
+        "Green-Green":   (0, 0, 2),
+    }
+    
+    total_offspring = {"blue": 0, "purple": 0, "green": 0}
+    family_breakdown = {}
+    
+    for family, count in pair_counts.items():
+        off_blue, off_purple, off_green = offspring_rules[family]
+        # Multiply by number of pairs:
+        fam_blue = count * off_blue
+        fam_purple = count * off_purple
+        fam_green = count * off_green
+        family_total = fam_blue + fam_purple + fam_green
+        
+        family_breakdown[family] = {
+            "blue": fam_blue,
+            "purple": fam_purple,
+            "green": fam_green,
+            "total": family_total
+        }
+        
+        total_offspring["blue"] += fam_blue
+        total_offspring["purple"] += fam_purple
+        total_offspring["green"] += fam_green
+    
+    return total_offspring, family_breakdown
+
+def apply_predator(population):
+    """
+    Apply predator's effect:
+      - Kill half of green cubes (using integer division).
+      - Kill 2 purple cubes (or all if fewer than 2).
+    """
+    blue, purple, green = population
+    green = green // 2
+    purple = max(purple - 2, 0)
+    return blue, purple, green
+
+def display_generation(gen, population, total_offspring, family_breakdown):
+    """Display the information for the current generation."""
+    print(f"\n=== Generation {gen} ===")
+    print(f"Population BEFORE offspring: Blue={population[0]}, Purple={population[1]}, Green={population[2]}")
+    print("\nOffspring produced this generation:")
+    print(f"  Blue: {total_offspring['blue']}")
+    print(f"  Purple: {total_offspring['purple']}")
+    print(f"  Green: {total_offspring['green']}")
+    print("\nFamily breakdown (number of offspring):")
+    # Rank families by total offspring (descending)
+    ranked_families = sorted(family_breakdown.items(), key=lambda x: x[1]["total"], reverse=True)
+    for rank, (fam, stats) in enumerate(ranked_families, start=1):
+        print(f"  Rank {rank}: {fam} -> Blue: {stats['blue']}, Purple: {stats['purple']}, Green: {stats['green']} (Total: {stats['total']})")
+
+def main():
+    blue, purple, green = get_initial_population()
+    generation = 1
+
+    while True:
+        # Display current overall population before reproduction:
+        print(f"\nOverall Population at start of Generation {generation}: Blue={blue}, Purple={purple}, Green={green}")
+        
+        # Get the 6 families (pairs) from the user for this generation:
+        pair_counts = get_pair_counts()
+        
+        # Calculate offspring produced by these pairs:
+        total_offspring, family_breakdown = produce_offspring(pair_counts)
+        
+        # Add offspring to overall population:
+        blue += total_offspring["blue"]
+        purple += total_offspring["purple"]
+        green += total_offspring["green"]
+        
+        # Display generation info and ranking of families:
+        display_generation(generation, (blue, purple, green), total_offspring, family_breakdown)
+        
+        # Apply predator's effect on the overall population:
+        blue, purple, green = apply_predator((blue, purple, green))
+        print("\nAfter predator attack:")
+        print(f"  Blue: {blue}, Purple: {purple}, Green: {green}")
+        
+        # Ask user whether to continue:
+        cont = input("\nContinue to next generation? (yes/no): ").strip().lower()
+        if cont != "yes":
+            break
+        
+        generation += 1
+
+    print("\nSimulation ended.")
+
+if __name__ == "__main__":
+    main()

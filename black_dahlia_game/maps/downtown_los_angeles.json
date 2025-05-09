@@ -1,0 +1,16 @@
+{
+    "locations": [
+        {
+            "name": "Crime Scene",
+            "description": "The location where the murder took place."
+        },
+        {
+            "name": "Police Station",
+            "description": "The place where you can ask for more information."
+        },
+        {
+            "name": "Detective's Office",
+            "description": "Your office where you can review clues."
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+Customer ID,Brand,Model,Price
+1,Chevrolet,Impala,27000
+4,Volkswagen,Golf,23000
+5,Hyundai,Elantra,22000
+6,Toyota,Corolla,20000
+7,Ford,F-150,30000
+8,Tesla,Model 3,40000
+10,Kia,Sorento,28000
+11,Jeep,Wrangler,35000
+13,Nissan,Altima,24000
+14,Subaru,Outback,32000
+17,Honda,Civic,25000
+18,Mazda,CX-5,26000
+19,Volvo,XC60,47000
+20,Lexus,RX,45000
+4,Audi,A4,50000
+
+Total Sales,15
+Total Revenue,474000
+Top Customer,Customer 2,$48099
