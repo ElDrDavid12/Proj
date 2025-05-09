@@ -1,0 +1,67 @@
+{
+  "start": {
+    "description": "You are in a dark room. A book is in front of you.",
+    "options": [
+      {
+        "text": "Open the book.",
+        "next_scene": "book_opened"
+      },
+      {
+        "text": "Leave the room.",
+        "next_scene": "room_left"
+      }
+    ]
+  },
+  "book_opened": {
+    "description": "You open the book. The pages are filled with strange symbols.",
+    "options": [
+      {
+        "text": "Keep reading.",
+        "next_scene": "next_scene"
+      },
+      {
+        "text": "Close the book.",
+        "next_scene": "start"
+      }
+    ]
+  },
+  "room_left": {
+    "description": "You leave the room and find yourself in a hallway.",
+    "options": [
+      {
+        "text": "Go back inside.",
+        "next_scene": "start"
+      },
+      {
+        "text": "Go down the hallway.",
+        "next_scene": "hallway"
+      }
+    ]
+  },
+  "hallway": {
+    "description": "The hallway is long and dark. You feel a strange presence.",
+    "options": [
+      {
+        "text": "Turn around.",
+        "next_scene": "room_left"
+      },
+      {
+        "text": "Continue walking.",
+        "next_scene": "next_scene"
+      }
+    ]
+  },
+  "next_scene": {
+    "description": "This is the next part of the story.",
+    "options": [
+      {
+        "text": "Go to the end.",
+        "next_scene": "end"
+      }
+    ]
+  },
+  "end": {
+    "description": "Congratulations, you've reached the end of the demo!",
+    "options": []
+  }
+}
